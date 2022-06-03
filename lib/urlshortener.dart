@@ -36,17 +36,17 @@ class UrlShortener extends StatelessWidget {
         centerTitle: true,
         title: const Text(
           'Your search history',
-          style:  TextStyle(fontSize: 20, color: Colors.black),
+          style: TextStyle(fontSize: 20, color: Colors.black),
         ),
         elevation: 0.3,
       ),
       body: Column(
         children: [
           Obx((() {
+         
             return Expanded(
                 child: c.mylist.isNotEmpty
                     ? ListView.builder(
-                        padding: const EdgeInsets.only(left: 10, top: 10),
                         itemCount: c.mylist.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Obx(() => ListTile(
@@ -128,11 +128,14 @@ class UrlShortener extends StatelessWidget {
                                         onPressed: () {
                                           Clipboard.setData(ClipboardData(
                                                   text: shortenedUrl))
-                                              .then((_) => ScaffoldMessenger.of(
-                                                      context)
-                                                  .showSnackBar(const SnackBar(
-                                                      content: Text(
-                                                          'Urls is copied to the clipboard'))));
+                                              .then((_) => Get.snackbar(
+                                                  "Succesfull",
+                                                  "url copied succesfully",
+                                                  icon: Icon(Icons.done,size: 26,
+                                                      color: Colors.black),
+                                                  snackPosition:
+                                                      SnackPosition.TOP,
+                                                  colorText: Colors.green));
                                         },
                                         icon: const Icon(Icons.copy)),
                                   )
@@ -151,14 +154,16 @@ class UrlShortener extends StatelessWidget {
                       );
                     });
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('Please provide a url',
-                      style: TextStyle(color: Colors.red)),
-                ));
+                Get.snackbar("Url Error", "Please provide a url",
+                    icon: Icon(Icons.info, color: Colors.black),
+                    snackPosition: SnackPosition.TOP,
+                    colorText: Colors.red);
               }
-              c.myurl.value = controller.text;
+
+              c.myurl.value = shortenedUrl.toString();
               if (controller.text.isNotEmpty) {
-                c.addlist(shortenedUrl.toString());
+                c.addlist(c.myurl.value);
+                
               }
             },
             child: Container(

@@ -14,10 +14,12 @@ class MyController extends GetxController {
 
   removelist(String url) {
     mylist.remove(myurl.obs);
+    
   }
 
   addlist(String url) {
     mylist.add(myurl.obs);
+    
   }
 
 }
