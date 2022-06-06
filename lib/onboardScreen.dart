@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:urlshortener/urlshortener.dart';
+import 'package:get/get.dart';
 
 
 // ignore: must_be_immutable
@@ -50,8 +51,7 @@ class OnBoardScreen extends StatelessWidget {
         pages: listPagesViewModel,
         next: const Text("Go"),
         onDone: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: ((context) =>   UrlShortener())));
+         Get.to(const UrlShortener());
         },
         onSkip: () {},
         showBackButton: true,

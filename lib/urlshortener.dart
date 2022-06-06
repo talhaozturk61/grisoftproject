@@ -1,38 +1,39 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:urlshortener/getxcontroller.dart';
 
-class UrlShortener extends StatelessWidget {
-  UrlShortener({Key? key}) : super(key: key);
-  Future<String?> shortenUrl({required String url}) async {
-    try {
-      final result = await http.post(
-          Uri.parse('https://cleanuri.com/api/v1/shorten'),
-          body: {'url': url});
+import 'package:urlshortener/models/shortenurl_service.dart';
+import 'package:urlshortener/widgets/drawerwidget.dart';
 
-      if (result.statusCode == 200) {
-        final jsonResult = jsonDecode(result.body);
-        return jsonResult['result_url'];
-      }
-    } catch (e) {
-      print('Error ${e.toString()}');
-    }
-    return null;
-  }
+import 'models/getxcontroller_service.dart';
 
+class UrlShortener extends StatefulWidget {
+  const UrlShortener({Key? key}) : super(key: key);
+
+  @override
+  State<UrlShortener> createState() => _UrlShortenerState();
+}
+
+class _UrlShortenerState extends State<UrlShortener> {
   final MyController c = Get.put(MyController());
+
   final controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: const DrawerWidget(),
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => _scaffoldKey.currentState!.openDrawer(),
+          icon: const Icon(
+            Icons.menu,
+            color: Colors.black,
+          ),
+        ),
         backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
         centerTitle: true,
         title: const Text(
           'Your search history',
@@ -43,22 +44,21 @@ class UrlShortener extends StatelessWidget {
       body: Column(
         children: [
           Obx((() {
-         
             return Expanded(
                 child: c.mylist.isNotEmpty
                     ? ListView.builder(
                         itemCount: c.mylist.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Obx(() => ListTile(
-                                title: Text(c.myurl.toString(),
-                                    style: const TextStyle(
-                                        color: Colors.black, fontSize: 18)),
-                                trailing: IconButton(
-                                    onPressed: () {
-                                      c.removelist(c.myurl.value);
-                                    },
-                                    icon: const Icon(Icons.delete)),
-                              ));
+                          return ListTile(
+                            title: Text(c.mylist[index].toString(),
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 18)),
+                            trailing: IconButton(
+                                onPressed: () {
+                                  c.removelist(c.mylist[index].toString());
+                                },
+                                icon: const Icon(Icons.delete)),
+                          );
                         },
                       )
                     : Column(
@@ -71,7 +71,7 @@ class UrlShortener extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          Text('Sonuç Bulunamadı',
+                          Text('search history clean..',
                               style: TextStyle(fontSize: 20))
                         ],
                       ));
@@ -131,7 +131,8 @@ class UrlShortener extends StatelessWidget {
                                               .then((_) => Get.snackbar(
                                                   "Succesfull",
                                                   "url copied succesfully",
-                                                  icon: Icon(Icons.done,size: 26,
+                                                  icon: const Icon(Icons.done,
+                                                      size: 26,
                                                       color: Colors.black),
                                                   snackPosition:
                                                       SnackPosition.TOP,
@@ -144,7 +145,7 @@ class UrlShortener extends StatelessWidget {
                               ElevatedButton.icon(
                                   onPressed: () {
                                     controller.clear();
-                                    Navigator.pop(context);
+                                   Get.back();
                                   },
                                   icon: const Icon(Icons.close),
                                   label: const Text('Close'))
@@ -155,15 +156,16 @@ class UrlShortener extends StatelessWidget {
                     });
               } else {
                 Get.snackbar("Url Error", "Please provide a url",
-                    icon: Icon(Icons.info, color: Colors.black),
+                    icon: const Icon(Icons.info, color: Colors.black),
                     snackPosition: SnackPosition.TOP,
                     colorText: Colors.red);
               }
 
-              c.myurl.value = shortenedUrl.toString();
-              if (controller.text.isNotEmpty) {
-                c.addlist(c.myurl.value);
-                
+              controller.text = shortenedUrl.toString();
+              if (controller.text.isNotEmpty && controller.text != 'null') {
+                final text = controller.text;
+
+                c.addlist(text);
               }
             },
             child: Container(
