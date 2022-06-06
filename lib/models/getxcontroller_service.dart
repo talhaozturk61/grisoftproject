@@ -3,15 +3,16 @@ import 'dart:convert';
 import 'package:get/get.dart';
 
 class MyController extends GetxController {
-  final mylist = <String>[].obs;
+  List mylist = [].obs;
+  RxString mylink = ''.obs;
 
   removelist(
-    String url,
+   mylink,
   ) {
-    mylist.remove(url);
+    mylist.remove(mylink);
   }
 
-  addlist(String url) {
-    mylist.add(url);
+  addlist(mylink) {
+    mylist.add(mylink);
   }
 }

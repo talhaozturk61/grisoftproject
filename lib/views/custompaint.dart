@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urlshortener/widgets/clipper.dart';
 
-class CustomPaintPage extends StatefulWidget {
+class CustomPaintPage extends StatelessWidget {
   const CustomPaintPage({Key? key}) : super(key: key);
 
-  @override
-  State<CustomPaintPage> createState() => _CustomPaintPageState();
-}
-
-class _CustomPaintPageState extends State<CustomPaintPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.back(),
-        child: const Text('Go Back',style: TextStyle(fontSize: 10),),
+        child: const Text(
+          'Go Back',
+          style: TextStyle(fontSize: 10),
+        ),
       ),
       body: ClipPath(
         clipper: MyClipper(),
@@ -28,4 +26,3 @@ class _CustomPaintPageState extends State<CustomPaintPage> {
     );
   }
 }
-

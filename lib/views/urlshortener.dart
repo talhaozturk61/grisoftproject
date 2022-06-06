@@ -5,21 +5,16 @@ import 'package:urlshortener/models/getxcontroller_service.dart';
 import 'package:urlshortener/models/shortenurl_service.dart';
 import 'package:urlshortener/widgets/drawerwidget.dart';
 
-class UrlShortener extends StatefulWidget {
+class UrlShortener extends StatelessWidget {
   const UrlShortener({Key? key}) : super(key: key);
-
-  @override
-  State<UrlShortener> createState() => _UrlShortenerState();
-}
-
-class _UrlShortenerState extends State<UrlShortener> {
-  final MyController c = Get.put(MyController());
-
-  final controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    final MyController c = Get.put(MyController());
+
+    final controller = TextEditingController();
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: const DrawerWidget(),
@@ -41,6 +36,7 @@ class _UrlShortenerState extends State<UrlShortener> {
       ),
       body: Column(
         children: [
+         
           Obx((() {
             return Expanded(
                 child: c.mylist.isNotEmpty
@@ -48,10 +44,10 @@ class _UrlShortenerState extends State<UrlShortener> {
                         itemCount: c.mylist.length,
                         itemBuilder: (BuildContext context, int index) {
                           return ListTile(
-                            title: Text(c.mylist[index].toString(),
+                            title: Obx((() => Text(c.mylist[index],
                                 style: const TextStyle(
-                                    color: Colors.black, fontSize: 18)),
-                            trailing: IconButton(
+                                    color: Colors.black, fontSize: 18))))
+,                            trailing: IconButton(
                                 onPressed: () {
                                   c.removelist(c.mylist[index].toString());
                                 },
@@ -143,7 +139,7 @@ class _UrlShortenerState extends State<UrlShortener> {
                               ElevatedButton.icon(
                                   onPressed: () {
                                     controller.clear();
-                                   Get.back();
+                                    Get.back();
                                   },
                                   icon: const Icon(Icons.close),
                                   label: const Text('Close'))
@@ -161,9 +157,9 @@ class _UrlShortenerState extends State<UrlShortener> {
 
               controller.text = shortenedUrl.toString();
               if (controller.text.isNotEmpty && controller.text != 'null') {
-                final text = controller.text;
+                c.mylink.value = controller.text;
 
-                c.addlist(text);
+                c.addlist(c.mylink.value);
               }
             },
             child: Container(
