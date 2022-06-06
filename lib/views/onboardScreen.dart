@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:urlshortener/urlshortener.dart';
 import 'package:get/get.dart';
+import 'package:urlshortener/views/urlshortener.dart';
 
 
 // ignore: must_be_immutable

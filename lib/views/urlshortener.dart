@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
+import 'package:urlshortener/models/getxcontroller_service.dart';
 import 'package:urlshortener/models/shortenurl_service.dart';
 import 'package:urlshortener/widgets/drawerwidget.dart';
-
-import 'models/getxcontroller_service.dart';
 
 class UrlShortener extends StatefulWidget {
   const UrlShortener({Key? key}) : super(key: key);

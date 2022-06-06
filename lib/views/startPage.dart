@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:urlshortener/onboardScreen.dart';
+import 'package:urlshortener/views/onboardScreen.dart';
 
 
 class StartPage extends StatelessWidget {

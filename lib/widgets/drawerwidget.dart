@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:urlshortener/views/custompaint.dart';
 
-import '../custompaint.dart';
+
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({ Key? key }) : super(key: key);
