@@ -3,16 +3,26 @@ import 'dart:convert';
 import 'package:get/get.dart';
 
 class MyController extends GetxController {
-  List mylist = [].obs;
-  RxString mylink = ''.obs;
+  var mylist = <MyLinkList>[].obs;
+  var shortlink = ''.obs;
+  var longlink = ''.obs;
 
   removelist(
-   mylink,
+    mylink,
   ) {
     mylist.remove(mylink);
   }
 
-  addlist(mylink) {
-    mylist.add(mylink);
+  addlist(shortlink,longlink) {
+    mylist.add(MyLinkList(long: longlink, short: shortlink));
   }
+}
+
+class MyLinkList {
+  String long;
+  String short;
+  MyLinkList({
+    required this.long,
+    required this.short,
+  });
 }
