@@ -36,25 +36,33 @@ class UrlShortener extends StatelessWidget {
       ),
       body: Column(
         children: [
-         
           Obx((() {
             return Expanded(
                 child: c.mylist.isNotEmpty
-                    ? ListView.builder(
-                        itemCount: c.mylist.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Obx((() => Text(c.mylist[index],
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 18))))
-,                            trailing: IconButton(
-                                onPressed: () {
-                                  c.removelist(c.mylist[index].toString());
-                                },
-                                icon: const Icon(Icons.delete)),
-                          );
-                        },
-                      )
+                    ? Obx((() => ListView.builder(padding: const EdgeInsets.only(top: 20,left: 5),
+                          itemCount: c.mylist.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              title: Obx((() => Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(c.mylist[index].long.toString(),
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18)),
+                                      Text(c.mylist[index].short.toString(),
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18)),
+                                    ],
+                                  ))),
+                              trailing: IconButton(
+                                  onPressed: () {
+                                    c.removelist(c.mylist[index]);
+                                  },
+                                  icon: const Icon(Icons.delete)),
+                            );
+                          },
+                        )))
                     : Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
@@ -155,11 +163,11 @@ class UrlShortener extends StatelessWidget {
                     colorText: Colors.red);
               }
 
-              controller.text = shortenedUrl.toString();
               if (controller.text.isNotEmpty && controller.text != 'null') {
-                c.mylink.value = controller.text;
+                c.shortlink.value = shortenedUrl!;
+                c.longlink.value = controller.text;
 
-                c.addlist(c.mylink.value);
+                c.addlist(c.shortlink.value, c.longlink.value);
               }
             },
             child: Container(
