@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urlshortener/views/custompaint.dart';
+import 'package:urlshortener/views/testpage.dart';
 
 
 
@@ -25,6 +26,18 @@ class DrawerWidget extends StatelessWidget {
               },
               child: const ListTile(
                 title: Text('Go to CustomPaint Page'),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.black,
+                  size: 20,
+                ),
+              ),
+            ), InkWell(
+              onTap: () {
+                Get.to(const TestPage());
+              },
+              child: const ListTile(
+                title: Text('Go to test Page'),
                 trailing: Icon(
                   Icons.arrow_forward_ios,
                   color: Colors.black,
